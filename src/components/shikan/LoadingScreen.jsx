@@ -44,7 +44,7 @@ export default function LoadingScreen() {
         </div>
 
         {/* Progress bar */}
-        <div className="w-48 h-px bg-white/10 mx-auto relative overflow-hidden">
+        <div className="w-80 h-px bg-white/10 mx-auto relative overflow-hidden">
           <div
             className="absolute top-0 left-0 h-full bg-champagne transition-all duration-300 ease-out"
             style={{ width: `${Math.min(progress, 100)}%` }}
