@@ -1,0 +1,352 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600&family=DM+Sans:ital,opsz,wght@0,9..40,200;0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,200;1,9..40,300&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 350 45% 7%;
+    --foreground: 30 40% 92%;
+    --card: 350 40% 10%;
+    --card-foreground: 30 40% 92%;
+    --popover: 350 40% 10%;
+    --popover-foreground: 30 40% 92%;
+    --primary: 355 72% 52%;
+    --primary-foreground: 30 40% 96%;
+    --secondary: 350 30% 14%;
+    --secondary-foreground: 30 35% 82%;
+    --muted: 350 28% 11%;
+    --muted-foreground: 350 15% 50%;
+    --accent: 355 60% 38%;
+    --accent-foreground: 30 40% 92%;
+    --destructive: 0 65% 38%;
+    --destructive-foreground: 30 40% 92%;
+    --border: 350 28% 18%;
+    --input: 350 28% 14%;
+    --ring: 355 72% 52%;
+    --radius: 0.25rem;
+
+    /* Custom brand tokens */
+    --espresso: 350 50% 6%;
+    --walnut: 350 38% 12%;
+    --caramel: 355 72% 52%;
+    --champagne: 355 72% 52%;
+    --ivory: 30 40% 92%;
+    --copper: 355 60% 38%;
+    --clay: 350 25% 26%;
+    --olive: 350 45% 28%;
+    --grain-opacity: 0.03;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+    background-color: hsl(350, 50%, 6%);
+  }
+
+  h1, h2, h3, h4 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+  }
+
+  ::selection {
+    background: hsl(355, 72%, 52%, 0.35);
+    color: hsl(30, 40%, 92%);
+  }
+
+  ::-webkit-scrollbar {
+    width: 2px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: hsl(350, 50%, 6%);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: hsl(355, 72%, 52%, 0.5);
+  }
+}
+
+@layer utilities {
+  .font-serif {
+    font-family: 'Cormorant Garamond', serif;
+  }
+
+  .font-sans {
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  .text-champagne {
+    color: hsl(355, 72%, 52%);
+  }
+
+  .text-ivory {
+    color: hsl(30, 40%, 92%);
+  }
+
+  .text-caramel {
+    color: hsl(355, 72%, 52%);
+  }
+
+  .text-copper {
+    color: hsl(355, 60%, 38%);
+  }
+
+  .bg-espresso {
+    background-color: hsl(350, 50%, 6%);
+  }
+
+  .bg-walnut {
+    background-color: hsl(350, 38%, 12%);
+  }
+
+  .bg-champagne {
+    background-color: hsl(355, 72%, 52%);
+  }
+
+  .bg-caramel {
+    background-color: hsl(355, 72%, 52%);
+  }
+
+  .border-champagne {
+    border-color: hsl(355, 72%, 52%);
+  }
+
+  .grain-overlay {
+    position: relative;
+  }
+
+  .grain-overlay::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+    opacity: 0.035;
+    pointer-events: none;
+    z-index: 1;
+    mix-blend-mode: overlay;
+  }
+
+  .shimmer {
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      hsl(355, 72%, 52%, 0.1) 50%,
+      transparent 100%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 3s infinite;
+  }
+
+  @keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  }
+
+  .clip-diagonal {
+    clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+  }
+
+  .clip-diagonal-reverse {
+    clip-path: polygon(0 15%, 100% 0, 100% 100%, 0 100%);
+  }
+
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .writing-vertical {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+  }
+
+  .mask-fade-b {
+    mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+  }
+}
+
+/* Premium animations */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes slideLeft {
+  from { opacity: 0; transform: translateX(60px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-12px); }
+}
+
+@keyframes pulse-gold {
+  0%, 100% { box-shadow: 0 0 0 0 hsl(355, 72%, 52%, 0.35); }
+  50% { box-shadow: 0 0 0 12px hsl(355, 72%, 52%, 0); }
+}
+
+@keyframes rotate-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.animate-fade-up {
+  animation: fadeUp 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.animate-fade-in {
+  animation: fadeIn 1.2s ease forwards;
+}
+
+.animate-scale-in {
+  animation: scaleIn 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.animate-slide-left {
+  animation: slideLeft 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-rotate-slow {
+  animation: rotate-slow 20s linear infinite;
+}
+
+.delay-100 { animation-delay: 0.1s; }
+.delay-200 { animation-delay: 0.2s; }
+.delay-300 { animation-delay: 0.3s; }
+.delay-400 { animation-delay: 0.4s; }
+.delay-500 { animation-delay: 0.5s; }
+.delay-600 { animation-delay: 0.6s; }
+.delay-700 { animation-delay: 0.7s; }
+.delay-800 { animation-delay: 0.8s; }
+.delay-900 { animation-delay: 0.9s; }
+.delay-1000 { animation-delay: 1s; }
+
+.opacity-0-init {
+  opacity: 0;
+}
+
+/* Hover effects */
+.hover-lift {
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.4s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 30px 60px -10px rgba(0,0,0,0.5);
+}
+
+.hover-scale {
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.hover-scale:hover {
+  transform: scale(1.04);
+}
+
+/* Image overlay */
+.img-overlay {
+  position: relative;
+  overflow: hidden;
+}
+
+.img-overlay::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(10,13,16,0.8) 0%, transparent 60%);
+  z-index: 1;
+}
+
+/* Button styles */
+.btn-primary {
+  background: hsl(355, 72%, 52%);
+  color: hsl(30, 40%, 96%);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  padding: 1rem 2.5rem;
+  border: none;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.btn-primary::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: hsl(350, 50%, 6%);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  z-index: 0;
+}
+
+.btn-primary:hover::before {
+  transform: scaleX(1);
+}
+
+.btn-primary span {
+  position: relative;
+  z-index: 1;
+  transition: color 0.4s ease;
+}
+
+.btn-primary:hover span {
+  color: hsl(355, 72%, 52%);
+}
+
+.btn-outline {
+  background: transparent;
+  color: hsl(355, 72%, 52%);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  padding: 1rem 2.5rem;
+  border: 1px solid hsl(355, 72%, 52%, 0.5);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.btn-outline:hover {
+  border-color: hsl(355, 72%, 52%);
+  background: hsl(355, 72%, 52%, 0.1);
+}
