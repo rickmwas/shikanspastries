@@ -54,18 +54,19 @@ function useInView(ref, threshold = 0.1) {
 }
 
 export default function TestimonialsSection() {
-  const [active, setActive] = useState(0);
-  const [animDir, setAnimDir] = useState(1);
+  const [active, setActive]     = useState(0);
+  const [animDir, setAnimDir]   = useState(1);
   const [animating, setAnimating] = useState(false);
   const sectionRef = useRef(null);
   const inView = useInView(sectionRef);
 
+  /* Touch / swipe */
   const touchStartX = useRef(null);
   const onTouchStart = (e) => { touchStartX.current = e.touches[0].clientX; };
-  const onTouchEnd = (e) => {
+  const onTouchEnd   = (e) => {
     if (touchStartX.current === null) return;
-    const diff = touchStartX.current - e.changedTouches[0].clientX;
-    if (Math.abs(diff) > 40) diff > 0 ? go(1) : go(-1);
+    const dx = touchStartX.current - e.changedTouches[0].clientX;
+    if (Math.abs(dx) > 44) dx > 0 ? go(1) : go(-1);
     touchStartX.current = null;
   };
 
@@ -76,7 +77,7 @@ export default function TestimonialsSection() {
     setTimeout(() => {
       setActive(p => (p + dir + TESTIMONIALS.length) % TESTIMONIALS.length);
       setAnimating(false);
-    }, 320);
+    }, 300);
   };
 
   useEffect(() => {
@@ -89,103 +90,99 @@ export default function TestimonialsSection() {
   return (
     <section
       ref={sectionRef}
-      className="py-20 md:py-32 overflow-hidden grain-overlay relative"
+      className="py-16 md:py-32 overflow-hidden grain-overlay relative"
       style={{ background: 'hsl(350, 45%, 7%)' }}
     >
-      {/* Subtle glow */}
       <div className="absolute inset-0 pointer-events-none" style={{ background: 'radial-gradient(ellipse 70% 50% at 70% 50%, hsla(355,72%,52%,0.05) 0%, transparent 70%)' }} />
 
-      <div className="max-w-7xl mx-auto px-5 md:px-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-12">
         {/* Header */}
         <div
-          className="mb-14 md:mb-18 flex flex-col md:flex-row md:items-end md:justify-between gap-5"
+          className="mb-10 md:mb-16 flex flex-col md:flex-row md:items-end md:justify-between gap-4"
           style={{ opacity: inView ? 1 : 0, transform: inView ? 'translateY(0)' : 'translateY(25px)', transition: 'all 0.8s ease' }}
         >
           <div>
-            <p className="text-[9px] tracking-[0.5em] text-champagne/70 uppercase font-sans mb-4">— What They Say</p>
-            <h2 className="font-serif text-[clamp(2rem,5vw,4.2rem)] text-ivory leading-[0.92]">
+            <p className="text-[9px] tracking-[0.5em] text-champagne/70 uppercase font-sans mb-3 sm:mb-4">— What They Say</p>
+            <h2
+              className="font-serif text-ivory leading-[0.92]"
+              style={{ fontSize: 'clamp(1.8rem, 5vw, 4.2rem)' }}
+            >
               Loved by <em className="text-champagne">Real Clients</em>
             </h2>
           </div>
+          {/* Desktop prev/next */}
           <div className="hidden md:flex items-center gap-2">
             <button
               onClick={() => go(-1)}
-              className="w-11 h-11 border border-champagne/20 flex items-center justify-center text-champagne/40 hover:text-champagne hover:border-champagne/50 transition-all duration-300 hover:bg-champagne/5"
+              className="w-11 h-11 border border-champagne/20 flex items-center justify-center text-champagne/40 hover:text-champagne hover:border-champagne/50 transition-all duration-300 touch-active"
+              aria-label="Previous"
             >
               <ChevronLeft size={15} />
             </button>
             <button
               onClick={() => go(1)}
-              className="w-11 h-11 border border-champagne/20 flex items-center justify-center text-champagne/40 hover:text-champagne hover:border-champagne/50 transition-all duration-300 hover:bg-champagne/5"
+              className="w-11 h-11 border border-champagne/20 flex items-center justify-center text-champagne/40 hover:text-champagne hover:border-champagne/50 transition-all duration-300 touch-active"
+              aria-label="Next"
             >
               <ChevronRight size={15} />
             </button>
           </div>
         </div>
 
-        {/* Main carousel */}
+        {/* Carousel */}
         <div
           onTouchStart={onTouchStart}
           onTouchEnd={onTouchEnd}
-          className="grid md:grid-cols-2 gap-0 overflow-hidden"
-          style={{ opacity: inView ? 1 : 0, transition: 'opacity 0.8s ease 0.15s' }}
+          className="overflow-hidden"
+          style={{ opacity: inView ? 1 : 0, transition: 'opacity 0.8s ease 0.15s', touchAction: 'pan-y' }}
         >
-          {/* Photo */}
-          <div
-            className="relative overflow-hidden"
-            style={{
-              opacity: animating ? 0 : 1,
-              transform: animating ? `translateX(${animDir * -40}px)` : 'translateX(0)',
-              transition: 'opacity 0.32s ease, transform 0.32s ease',
-              aspectRatio: '4/3',
-            }}
-          >
-            <img src={current.img} alt={current.name} className="w-full h-full object-cover scale-105" />
-            <div className="absolute inset-0 bg-gradient-to-t from-espresso/70 via-espresso/20 to-transparent" />
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent to-transparent" />
-            {/* Event badge */}
+          {/* Mobile layout: stacked */}
+          <div className="md:hidden">
+            {/* Image */}
             <div
-              className="absolute bottom-5 left-5 px-3.5 py-1.5 text-[8px] tracking-[0.25em] uppercase font-sans"
-              style={{ background: 'hsl(355, 72%, 52%)', color: 'hsl(30, 40%, 96%)' }}
+              className="relative overflow-hidden mb-0"
+              style={{
+                aspectRatio: '3/2',
+                opacity: animating ? 0 : 1,
+                transform: animating ? `translateX(${animDir * -30}px)` : 'translateX(0)',
+                transition: 'opacity 0.3s ease, transform 0.3s ease',
+              }}
             >
-              {current.event}
-            </div>
-            {/* Counter */}
-            <div className="absolute top-5 right-5 text-[10px] font-sans text-ivory/25">
-              {String(active + 1).padStart(2, '0')} / {String(TESTIMONIALS.length).padStart(2, '0')}
-            </div>
-          </div>
-
-          {/* Review */}
-          <div
-            className="flex flex-col justify-between p-8 md:p-12"
-            style={{
-              background: 'hsl(350, 40%, 10%)',
-              opacity: animating ? 0 : 1,
-              transform: animating ? `translateX(${animDir * 40}px)` : 'translateX(0)',
-              transition: 'opacity 0.32s ease, transform 0.32s ease',
-            }}
-          >
-            {/* Stars */}
-            <div className="flex gap-1 mb-8">
-              {Array(current.stars).fill(0).map((_, i) => (
-                <Star key={i} size={11} fill="hsl(355, 72%, 52%)" className="text-champagne" />
-              ))}
+              <img src={current.img} alt={current.name} className="w-full h-full object-cover scale-105" loading="lazy" />
+              <div className="absolute inset-0 bg-gradient-to-t from-espresso/80 via-espresso/20 to-transparent" />
+              <div
+                className="absolute bottom-4 left-4 px-3 py-1.5 text-[7px] tracking-[0.25em] uppercase font-sans"
+                style={{ background: 'hsl(355, 72%, 52%)', color: 'hsl(30, 40%, 96%)' }}
+              >
+                {current.event}
+              </div>
+              <div className="absolute top-4 right-4 text-[10px] font-sans text-ivory/30">
+                {String(active + 1).padStart(2, '0')} / {String(TESTIMONIALS.length).padStart(2, '0')}
+              </div>
             </div>
 
-            <div className="flex-1 flex flex-col justify-center">
-              {/* Large quote mark */}
-              <div className="font-serif text-[5.5rem] leading-none text-champagne/8 -mb-6 -ml-1 select-none">"</div>
-              <blockquote className="font-serif text-[clamp(1.1rem,2.2vw,1.65rem)] text-ivory/85 leading-[1.45] mb-8">
+            {/* Review card */}
+            <div
+              className="p-6 sm:p-8"
+              style={{
+                background: 'hsl(350, 40%, 10%)',
+                opacity: animating ? 0 : 1,
+                transform: animating ? `translateX(${animDir * 30}px)` : 'translateX(0)',
+                transition: 'opacity 0.3s ease, transform 0.3s ease',
+              }}
+            >
+              <div className="flex gap-1 mb-5">
+                {Array(current.stars).fill(0).map((_, i) => (
+                  <Star key={i} size={10} fill="hsl(355, 72%, 52%)" className="text-champagne" />
+                ))}
+              </div>
+              <div className="font-serif text-[4rem] leading-none text-champagne/8 -mb-4 -ml-1 select-none">"</div>
+              <blockquote className="font-serif text-[1.15rem] sm:text-[1.3rem] text-ivory/85 leading-[1.5] mb-6">
                 {current.quote}
               </blockquote>
-            </div>
-
-            {/* Author */}
-            <div>
-              <div className="flex items-center gap-4 mb-8">
+              <div className="flex items-center gap-3 mb-6">
                 <div
-                  className="w-10 h-10 flex items-center justify-center font-serif text-base italic flex-shrink-0"
+                  className="w-9 h-9 flex items-center justify-center font-serif text-sm italic flex-shrink-0"
                   style={{ background: 'hsl(355, 72%, 52%)', color: 'hsl(30, 40%, 96%)' }}
                 >
                   {current.initial}
@@ -195,9 +192,8 @@ export default function TestimonialsSection() {
                   <p className="font-sans text-[9px] text-champagne/45 tracking-[0.2em] uppercase mt-0.5">{current.event}</p>
                 </div>
               </div>
-
-              {/* Dots + mobile arrows */}
-              <div className="flex items-center justify-between pt-6 border-t border-champagne/10">
+              {/* Dots + arrows */}
+              <div className="flex items-center justify-between pt-5 border-t border-champagne/10">
                 <div className="flex items-center gap-1.5">
                   {TESTIMONIALS.map((_, i) => (
                     <button
@@ -209,35 +205,126 @@ export default function TestimonialsSection() {
                         height: '2px',
                         background: active === i ? 'hsl(355, 72%, 52%)' : 'rgba(200,50,60,0.2)',
                       }}
+                      aria-label={`Go to testimonial ${i + 1}`}
                     />
                   ))}
                 </div>
-                <div className="flex md:hidden items-center gap-2">
-                  <button onClick={() => go(-1)} className="w-9 h-9 border border-champagne/20 flex items-center justify-center text-champagne/50 hover:text-champagne transition-all">
-                    <ChevronLeft size={13} />
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => go(-1)}
+                    className="w-10 h-10 border border-champagne/20 flex items-center justify-center text-champagne/50 hover:text-champagne transition-all touch-active"
+                    aria-label="Previous"
+                  >
+                    <ChevronLeft size={14} />
                   </button>
-                  <button onClick={() => go(1)} className="w-9 h-9 border border-champagne/20 flex items-center justify-center text-champagne/50 hover:text-champagne transition-all">
-                    <ChevronRight size={13} />
+                  <button
+                    onClick={() => go(1)}
+                    className="w-10 h-10 border border-champagne/20 flex items-center justify-center text-champagne/50 hover:text-champagne transition-all touch-active"
+                    aria-label="Next"
+                  >
+                    <ChevronRight size={14} />
                   </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Desktop layout: side-by-side */}
+          <div className="hidden md:grid md:grid-cols-2 gap-0">
+            <div
+              className="relative overflow-hidden"
+              style={{
+                aspectRatio: '4/3',
+                opacity: animating ? 0 : 1,
+                transform: animating ? `translateX(${animDir * -40}px)` : 'translateX(0)',
+                transition: 'opacity 0.3s ease, transform 0.3s ease',
+              }}
+            >
+              <img src={current.img} alt={current.name} className="w-full h-full object-cover scale-105" loading="lazy" />
+              <div className="absolute inset-0 bg-gradient-to-t from-espresso/70 via-espresso/20 to-transparent" />
+              <div
+                className="absolute bottom-5 left-5 px-3.5 py-1.5 text-[8px] tracking-[0.25em] uppercase font-sans"
+                style={{ background: 'hsl(355, 72%, 52%)', color: 'hsl(30, 40%, 96%)' }}
+              >
+                {current.event}
+              </div>
+              <div className="absolute top-5 right-5 text-[10px] font-sans text-ivory/25">
+                {String(active + 1).padStart(2, '0')} / {String(TESTIMONIALS.length).padStart(2, '0')}
+              </div>
+            </div>
+
+            <div
+              className="flex flex-col justify-between p-10 lg:p-12"
+              style={{
+                background: 'hsl(350, 40%, 10%)',
+                opacity: animating ? 0 : 1,
+                transform: animating ? `translateX(${animDir * 40}px)` : 'translateX(0)',
+                transition: 'opacity 0.3s ease, transform 0.3s ease',
+              }}
+            >
+              <div className="flex gap-1 mb-8">
+                {Array(current.stars).fill(0).map((_, i) => (
+                  <Star key={i} size={11} fill="hsl(355, 72%, 52%)" className="text-champagne" />
+                ))}
+              </div>
+              <div className="flex-1 flex flex-col justify-center">
+                <div className="font-serif text-[5.5rem] leading-none text-champagne/8 -mb-6 -ml-1 select-none">"</div>
+                <blockquote
+                  className="font-serif text-ivory/85 leading-[1.45] mb-8"
+                  style={{ fontSize: 'clamp(1.1rem, 2vw, 1.6rem)' }}
+                >
+                  {current.quote}
+                </blockquote>
+              </div>
+              <div>
+                <div className="flex items-center gap-4 mb-8">
+                  <div
+                    className="w-10 h-10 flex items-center justify-center font-serif text-base italic flex-shrink-0"
+                    style={{ background: 'hsl(355, 72%, 52%)', color: 'hsl(30, 40%, 96%)' }}
+                  >
+                    {current.initial}
+                  </div>
+                  <div>
+                    <p className="font-sans text-sm text-ivory font-medium">{current.name}</p>
+                    <p className="font-sans text-[9px] text-champagne/45 tracking-[0.2em] uppercase mt-0.5">{current.event}</p>
+                  </div>
+                </div>
+                <div className="flex items-center justify-between pt-6 border-t border-champagne/10">
+                  <div className="flex items-center gap-1.5">
+                    {TESTIMONIALS.map((_, i) => (
+                      <button
+                        key={i}
+                        onClick={() => { setAnimDir(i > active ? 1 : -1); setActive(i); }}
+                        className="transition-all duration-400"
+                        style={{
+                          width: active === i ? '2rem' : '0.3rem',
+                          height: '2px',
+                          background: active === i ? 'hsl(355, 72%, 52%)' : 'rgba(200,50,60,0.2)',
+                        }}
+                        aria-label={`Go to testimonial ${i + 1}`}
+                      />
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Thumbnail strip */}
+        {/* Thumbnail strip — desktop only */}
         <div
-          className="mt-3 grid grid-cols-4 gap-2"
+          className="hidden md:grid mt-3 grid-cols-4 gap-2"
           style={{ opacity: inView ? 1 : 0, transition: 'opacity 0.8s ease 0.3s' }}
         >
           {TESTIMONIALS.map((t, i) => (
             <button
               key={i}
               onClick={() => { setAnimDir(i > active ? 1 : -1); setActive(i); }}
-              className="relative overflow-hidden transition-all duration-400"
+              className="relative overflow-hidden transition-all duration-400 touch-active"
               style={{ opacity: active === i ? 1 : 0.3, aspectRatio: '16/9' }}
+              aria-label={`View ${t.name}'s testimonial`}
             >
-              <img src={t.img} alt={t.name} className="w-full h-full object-cover transition-transform duration-500 hover:scale-105" />
+              <img src={t.img} alt={t.name} className="w-full h-full object-cover" loading="lazy" />
               {active === i && <div className="absolute inset-0 border border-champagne/70" />}
             </button>
           ))}

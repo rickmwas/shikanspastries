@@ -8,31 +8,51 @@ const WA_ICON = ({ size = 22, color = 'white' }) => (
 );
 
 export default function FloatingWhatsApp() {
-  const [open, setOpen] = useState(false);
+  const [open,  setOpen]  = useState(false);
   const [pulse, setPulse] = useState(false);
+  /* We track mobile so we can shift the FAB above the bottom nav */
+  const [isMobile, setIsMobile] = useState(() =>
+    typeof window !== 'undefined' && window.innerWidth < 768
+  );
 
-  // Start pulse after a short delay to draw attention
   useEffect(() => {
-    const t = setTimeout(() => setPulse(true), 2000);
+    const mq = window.matchMedia('(max-width: 767px)');
+    const handler = (e) => setIsMobile(e.matches);
+    mq.addEventListener('change', handler);
+    return () => mq.removeEventListener('change', handler);
+  }, []);
+
+  useEffect(() => {
+    const t = setTimeout(() => setPulse(true), 3000);
     return () => clearTimeout(t);
   }, []);
 
   const handleOpen = () => {
-    setOpen(!open);
+    setOpen(o => !o);
     setPulse(false);
   };
 
   const sendMessage = () => {
-    window.open('https://wa.me/254700000000?text=Hello%20Shikan%20Pastries!%20I%20would%20like%20to%20place%20an%20order.', '_blank');
+    window.open(
+      'https://wa.me/254700000000?text=Hello%20Shikan%20Pastries!%20I%20would%20like%20to%20place%20an%20order.',
+      '_blank'
+    );
     setOpen(false);
   };
 
+  /* On mobile, bottom-nav is 64px tall + safe area. On desktop, use 24px. */
+  const fabBottom  = isMobile ? 'calc(64px + env(safe-area-inset-bottom, 0px) + 12px)' : '24px';
+  const popupBottom = isMobile
+    ? 'calc(64px + env(safe-area-inset-bottom, 0px) + 84px)'
+    : '88px';
+
   return (
-    <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-3">
+    <>
       {/* Popup card */}
       <div
-        className="transition-all duration-400 ease-out"
+        className="fixed right-4 sm:right-6 z-50 transition-all duration-400 ease-out"
         style={{
+          bottom: popupBottom,
           opacity: open ? 1 : 0,
           transform: open ? 'translateY(0) scale(1)' : 'translateY(16px) scale(0.95)',
           pointerEvents: open ? 'all' : 'none',
@@ -42,7 +62,7 @@ export default function FloatingWhatsApp() {
           className="w-72 overflow-hidden shadow-2xl"
           style={{ background: 'hsl(350, 45%, 9%)', border: '1px solid hsla(355,72%,52%,0.2)' }}
         >
-          {/* Header */}
+          {/* Header strip */}
           <div className="px-5 py-4 flex items-center gap-3" style={{ background: 'hsl(355, 65%, 44%)' }}>
             <div className="w-8 h-8 rounded-full bg-white/15 flex items-center justify-center flex-shrink-0">
               <WA_ICON size={15} />
@@ -54,7 +74,11 @@ export default function FloatingWhatsApp() {
                 <p className="text-white/60 text-[10px] font-sans">Usually replies instantly</p>
               </div>
             </div>
-            <button onClick={() => setOpen(false)} className="text-white/50 hover:text-white transition-colors flex-shrink-0">
+            <button
+              className="w-8 h-8 flex items-center justify-center text-white/50 hover:text-white transition-colors"
+              onClick={() => setOpen(false)}
+              aria-label="Close"
+            >
               <X size={13} />
             </button>
           </div>
@@ -77,8 +101,8 @@ export default function FloatingWhatsApp() {
             </div>
             <button
               onClick={sendMessage}
-              className="btn-primary w-full text-center text-[9px]"
-              style={{ padding: '0.8rem 1rem' }}
+              className="btn-primary w-full"
+              style={{ padding: '0.85rem 1rem' }}
             >
               <span>Start Conversation</span>
             </button>
@@ -86,24 +110,29 @@ export default function FloatingWhatsApp() {
         </div>
       </div>
 
-      {/* FAB button */}
+      {/* FAB */}
       <button
         onClick={handleOpen}
-        className="relative w-14 h-14 flex items-center justify-center shadow-2xl transition-all duration-350 hover:scale-110 active:scale-95"
-        style={{ background: 'hsl(355, 65%, 44%)' }}
+        className="fixed right-4 sm:right-6 z-50 w-14 h-14 flex items-center justify-center shadow-2xl transition-all duration-350 hover:scale-110 active:scale-95"
+        style={{
+          background: 'hsl(355, 65%, 44%)',
+          bottom: fabBottom,
+        }}
         aria-label="Chat on WhatsApp"
       >
-        {/* Pulse ring */}
         {pulse && !open && (
           <span
-            className="absolute inset-0 animate-pulse-glow"
+            className="absolute inset-0 animate-pulse-glow pointer-events-none"
             style={{ background: 'hsl(355, 65%, 44%)' }}
           />
         )}
-        <div className="transition-all duration-300" style={{ transform: open ? 'rotate(90deg) scale(0.85)' : 'rotate(0deg) scale(1)' }}>
+        <div
+          className="transition-all duration-300"
+          style={{ transform: open ? 'rotate(90deg) scale(0.85)' : 'rotate(0deg) scale(1)' }}
+        >
           {open ? <X size={20} className="text-white" /> : <WA_ICON size={22} />}
         </div>
       </button>
-    </div>
+    </>
   );
 }

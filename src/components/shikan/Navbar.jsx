@@ -1,54 +1,57 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X } from 'lucide-react';
 
 const navLinks = [
-  { label: 'Home', href: '/' },
+  { label: 'Home',       href: '/' },
   { label: 'Collection', href: '/collection' },
-  { label: 'Gallery', href: '/gallery' },
-  { label: 'Order', href: '/order' },
+  { label: 'Gallery',    href: '/gallery' },
+  { label: 'Order',      href: '/order' },
 ];
 
 export default function Navbar() {
-  const [scrolled, setScrolled] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolled, setScrolled]   = useState(false);
+  const [menuOpen, setMenuOpen]   = useState(false);
   const location = useLocation();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 50);
-    window.addEventListener('scroll', onScroll);
+    window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
   useEffect(() => { setMenuOpen(false); }, [location.pathname]);
+
+  /* Lock body scroll when menu open */
+  useEffect(() => {
+    document.body.style.overflow = menuOpen ? 'hidden' : '';
+    return () => { document.body.style.overflow = ''; };
+  }, [menuOpen]);
 
   return (
     <>
       <nav
         className="fixed top-0 left-0 right-0 z-50 transition-all duration-700"
         style={{
-          background: scrolled ? 'rgba(12, 3, 5, 0.96)' : 'transparent',
+          background: scrolled ? 'rgba(12, 3, 5, 0.97)' : 'transparent',
           backdropFilter: scrolled ? 'blur(24px) saturate(180%)' : 'none',
           borderBottom: scrolled ? '1px solid rgba(200,50,60,0.1)' : 'none',
           boxShadow: scrolled ? '0 4px 40px rgba(0,0,0,0.4)' : 'none',
         }}
       >
-        <div className="max-w-7xl mx-auto px-5 md:px-12 py-4 md:py-5 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-12 py-3 md:py-5 flex items-center justify-between">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-3 group">
-            <div className="relative">
-              <div
-                className="w-9 h-9 flex items-center justify-center"
-                style={{
-                  background: 'hsl(355, 72%, 52%)',
-                  clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)',
-                }}
-              >
-                <span className="font-serif text-sm italic text-ivory" style={{ fontWeight: 500 }}>S</span>
-              </div>
+          <Link to="/" className="flex items-center gap-2.5 group" style={{ minHeight: 44 }}>
+            <div
+              className="w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center flex-shrink-0"
+              style={{
+                background: 'hsl(355, 72%, 52%)',
+                clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)',
+              }}
+            >
+              <span className="font-serif text-xs italic text-ivory" style={{ fontWeight: 500 }}>S</span>
             </div>
             <div>
-              <span className="font-serif text-xl text-ivory italic leading-none tracking-tight group-hover:text-champagne transition-colors duration-400">Shikan</span>
+              <span className="font-serif text-lg sm:text-xl text-ivory italic leading-none tracking-tight group-hover:text-champagne transition-colors duration-400">Shikan</span>
               <span className="block text-[7px] tracking-[0.4em] text-champagne/60 uppercase font-sans leading-none mt-0.5">Pastries</span>
             </div>
           </Link>
@@ -72,16 +75,19 @@ export default function Navbar() {
           </div>
 
           {/* CTA + Hamburger */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
             <Link to="/order" className="hidden md:block btn-primary text-[9px]" style={{ padding: '0.6rem 1.5rem' }}>
               <span>Order Now</span>
             </Link>
+
+            {/* Hamburger — 44×44 touch target */}
             <button
-              className="md:hidden w-10 h-10 flex items-center justify-center text-ivory/70 hover:text-champagne transition-colors"
+              className="md:hidden touch-target text-ivory/70 hover:text-champagne transition-colors relative"
               onClick={() => setMenuOpen(!menuOpen)}
-              aria-label="Menu"
+              aria-label={menuOpen ? 'Close menu' : 'Open menu'}
             >
-              <div className="relative w-5 h-4 flex flex-col justify-between">
+              <span className="sr-only">{menuOpen ? 'Close' : 'Menu'}</span>
+              <div className="w-5 h-4 flex flex-col justify-between pointer-events-none">
                 <span
                   className="block h-px bg-current transition-all duration-400 origin-center"
                   style={{ transform: menuOpen ? 'rotate(45deg) translate(3px, 6px)' : 'none', width: '100%' }}
@@ -100,7 +106,7 @@ export default function Navbar() {
         </div>
       </nav>
 
-      {/* Mobile Menu */}
+      {/* Mobile Full-Screen Menu */}
       <div
         className="fixed inset-0 z-40 flex flex-col md:hidden transition-all duration-500"
         style={{
@@ -109,32 +115,38 @@ export default function Navbar() {
           pointerEvents: menuOpen ? 'all' : 'none',
           transform: menuOpen ? 'translateX(0)' : 'translateX(100%)',
         }}
+        aria-hidden={!menuOpen}
       >
-        {/* Background glow */}
         <div
           className="absolute inset-0 pointer-events-none"
-          style={{ background: 'radial-gradient(ellipse 80% 60% at 50% 30%, hsla(355,72%,52%,0.06) 0%, transparent 70%)' }}
+          style={{ background: 'radial-gradient(ellipse 80% 60% at 50% 30%, hsla(355,72%,52%,0.07) 0%, transparent 70%)' }}
         />
 
-        <div className="flex flex-col flex-1 justify-center px-8 gap-1 pt-20 relative">
+        <div className="flex flex-col flex-1 justify-center px-7 gap-0.5 pt-16 relative">
           {navLinks.map((link, i) => (
             <Link
               key={link.label}
               to={link.href}
-              className="font-serif text-[2.8rem] text-ivory/80 hover:text-champagne transition-colors duration-300 py-3 border-b border-white/5 italic flex items-center justify-between group"
+              className="font-serif italic flex items-center justify-between group border-b border-white/5"
               style={{
+                fontSize: 'clamp(2.4rem, 10vw, 3.2rem)',
+                color: location.pathname === link.href ? 'hsl(355, 72%, 62%)' : 'hsla(30,40%,92%,0.8)',
+                padding: '0.75rem 0',
                 opacity: menuOpen ? 1 : 0,
                 transform: menuOpen ? 'translateX(0)' : 'translateX(40px)',
-                transition: `opacity 0.5s ease ${i * 0.08}s, transform 0.5s cubic-bezier(0.22,1,0.36,1) ${i * 0.08}s, color 0.3s`,
+                transition: `opacity 0.5s ease ${i * 0.07}s, transform 0.5s cubic-bezier(0.22,1,0.36,1) ${i * 0.07}s, color 0.3s`,
               }}
             >
               {link.label}
-              <span className="text-champagne/20 group-hover:text-champagne/60 text-2xl transition-colors" style={{ fontStyle: 'normal', fontFamily: 'DM Sans' }}>→</span>
+              <span
+                className="text-2xl transition-colors duration-300 group-hover:text-champagne/60"
+                style={{ fontStyle: 'normal', fontFamily: 'DM Sans', color: 'hsla(355,72%,52%,0.2)' }}
+              >→</span>
             </Link>
           ))}
         </div>
 
-        <div className="px-8 pb-14 relative">
+        <div className="px-7 pb-10 relative" style={{ paddingBottom: 'calc(2.5rem + env(safe-area-inset-bottom, 0px))' }}>
           <Link to="/order" className="btn-primary block text-center w-full mb-6">
             <span>Place an Order</span>
           </Link>

@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Navbar from '../components/shikan/Navbar';
+import BottomNav from '../components/shikan/BottomNav';
 import Footer from '../components/shikan/Footer';
 import FloatingWhatsApp from '../components/shikan/FloatingWhatsApp';
 
@@ -37,53 +38,61 @@ function useInView(ref, threshold = 0.1) {
 function CakeCard({ item, index }) {
   const ref = useRef(null);
   const inView = useInView(ref);
-  const [hovered, setHovered] = useState(false);
 
   return (
     <div
       ref={ref}
-      className="group bg-walnut overflow-hidden cursor-pointer"
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
+      className="group bg-walnut overflow-hidden"
       style={{
         opacity: inView ? 1 : 0,
-        transform: inView ? 'translateY(0)' : 'translateY(50px)',
-        transition: `opacity 0.8s ease ${index * 0.08}s, transform 0.8s cubic-bezier(0.22,1,0.36,1) ${index * 0.08}s`,
+        transform: inView ? 'translateY(0)' : 'translateY(40px)',
+        transition: `opacity 0.7s ease ${index * 0.07}s, transform 0.7s cubic-bezier(0.22,1,0.36,1) ${index * 0.07}s`,
       }}
     >
-      <div className="relative overflow-hidden aspect-square">
+      <div className="relative overflow-hidden" style={{ aspectRatio: '1/1' }}>
         <img
           src={item.img}
           alt={item.name}
-          className="w-full h-full object-cover transition-transform duration-700"
-          style={{ transform: hovered ? 'scale(1.07)' : 'scale(1)', transitionTimingFunction: 'cubic-bezier(0.22,1,0.36,1)' }}
+          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+          loading="lazy"
+          style={{ transitionTimingFunction: 'cubic-bezier(0.22,1,0.36,1)' }}
         />
         {/* Tag */}
         {item.tag && (
-          <span className="absolute top-3 left-3 text-[8px] tracking-[0.22em] uppercase font-sans bg-champagne text-ivory px-2.5 py-1 z-10">
+          <span className="absolute top-2.5 left-2.5 sm:top-3 sm:left-3 text-[7px] sm:text-[8px] tracking-[0.22em] uppercase font-sans bg-champagne text-ivory px-2 py-1 z-10">
             {item.tag}
           </span>
         )}
-        {/* Hover overlay */}
+
+        {/* Hover overlay — desktop only */}
         <div
-          className="absolute inset-0 bg-gradient-to-t from-espresso/95 via-espresso/40 to-transparent flex items-end p-5 transition-opacity duration-500"
-          style={{ opacity: hovered ? 1 : 0 }}
+          className="absolute inset-0 bg-gradient-to-t from-espresso/95 via-espresso/40 to-transparent items-end p-4 transition-opacity duration-500 hidden md:flex"
+          style={{ opacity: 0 }}
+          onMouseEnter={e => e.currentTarget.style.opacity = 1}
+          onMouseLeave={e => e.currentTarget.style.opacity = 0}
         >
           <Link to="/order" className="btn-primary w-full text-center text-[8px]" style={{ padding: '0.7rem 1rem' }}>
             <span>Order Now</span>
           </Link>
         </div>
-        {/* Default dark bottom gradient */}
-        <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-walnut/80 to-transparent" />
+        <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-walnut/70 to-transparent" />
       </div>
 
-      <div className="p-5">
-        <p className="text-[8px] tracking-[0.35em] text-champagne/50 uppercase font-sans mb-1.5">{item.category}</p>
-        <h3 className="font-serif text-[1.2rem] text-ivory italic leading-tight mb-2">{item.name}</h3>
-        <p className="text-[11px] text-ivory/35 font-sans leading-relaxed line-clamp-2 mb-4">{item.description}</p>
-        <div className="flex items-center justify-between">
-          <p className="font-serif text-base text-champagne">{item.price}</p>
-          <span className="text-[8px] tracking-[0.2em] text-ivory/20 uppercase font-sans group-hover:text-champagne/50 transition-colors">Order →</span>
+      <div className="p-4 sm:p-5">
+        <p className="text-[7px] sm:text-[8px] tracking-[0.35em] text-champagne/50 uppercase font-sans mb-1">{item.category}</p>
+        <h3 className="font-serif text-[1.05rem] sm:text-[1.2rem] text-ivory italic leading-tight mb-1.5 sm:mb-2">{item.name}</h3>
+        <p className="text-[10px] sm:text-[11px] text-ivory/35 font-sans leading-relaxed line-clamp-2 mb-3 sm:mb-4">{item.description}</p>
+        <div className="flex items-center justify-between gap-2">
+          <p className="font-serif text-sm sm:text-base text-champagne">{item.price}</p>
+          {/* Mobile always-visible order button */}
+          <Link
+            to="/order"
+            className="md:hidden text-[8px] tracking-[0.2em] uppercase font-sans text-champagne/60 border border-champagne/20 px-3 py-2 active:scale-95 transition-transform"
+            style={{ minHeight: 36 }}
+          >
+            Order
+          </Link>
+          <span className="hidden md:block text-[8px] tracking-[0.2em] text-ivory/20 uppercase font-sans group-hover:text-champagne/50 transition-colors">Order →</span>
         </div>
       </div>
     </div>
@@ -100,12 +109,15 @@ export default function Collection() {
 
       {/* Hero header */}
       <div
-        className="pt-32 pb-16 px-5 md:px-12 max-w-7xl mx-auto relative"
+        className="pt-28 sm:pt-32 pb-10 sm:pb-16 px-4 sm:px-6 md:px-12 max-w-7xl mx-auto relative"
         style={{ borderBottom: '1px solid hsla(355,72%,52%,0.1)' }}
       >
-        <div className="absolute top-0 right-0 bottom-0 left-0 pointer-events-none" style={{ background: 'radial-gradient(ellipse 50% 80% at 80% 50%, hsla(355,72%,52%,0.04) 0%, transparent 70%)' }} />
-        <p className="text-[9px] tracking-[0.5em] text-champagne/70 uppercase font-sans mb-4">— Our Work</p>
-        <h1 className="font-serif text-[clamp(2.8rem,8vw,6rem)] text-ivory leading-[0.9] mb-6">
+        <div className="absolute inset-0 pointer-events-none" style={{ background: 'radial-gradient(ellipse 50% 80% at 80% 50%, hsla(355,72%,52%,0.04) 0%, transparent 70%)' }} />
+        <p className="text-[9px] tracking-[0.5em] text-champagne/70 uppercase font-sans mb-3 sm:mb-4">— Our Work</p>
+        <h1
+          className="font-serif text-ivory leading-[0.9] mb-4 sm:mb-6"
+          style={{ fontSize: 'clamp(2.4rem, 9vw, 6rem)' }}
+        >
           The <em className="text-champagne">Collection</em>
         </h1>
         <p className="text-sm text-ivory/35 font-sans max-w-md leading-relaxed">
@@ -113,15 +125,19 @@ export default function Collection() {
         </p>
       </div>
 
-      {/* Filters */}
-      <div className="px-5 md:px-12 max-w-7xl mx-auto mt-10 mb-10">
+      {/* Filters — horizontally scrollable */}
+      <div className="px-4 sm:px-6 md:px-12 max-w-7xl mx-auto mt-6 sm:mt-10 mb-6 sm:mb-10">
         <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-none">
           {FILTERS.map(f => (
             <button
               key={f}
               onClick={() => setFilter(f)}
-              className="flex-shrink-0 text-[9px] tracking-[0.2em] uppercase font-sans px-5 py-2.5 transition-all duration-300"
+              className="flex-shrink-0 font-sans uppercase transition-all duration-300 active:scale-95"
               style={{
+                fontSize: '9px',
+                letterSpacing: '0.2em',
+                padding: '0.65rem 1.2rem',
+                minHeight: 44,
                 color: filter === f ? 'hsl(30, 40%, 96%)' : 'hsla(355,72%,52%,0.45)',
                 background: filter === f ? 'hsl(355, 72%, 52%)' : 'transparent',
                 border: `1px solid ${filter === f ? 'hsl(355, 72%, 52%)' : 'hsla(355,72%,52%,0.2)'}`,
@@ -133,20 +149,24 @@ export default function Collection() {
         </div>
       </div>
 
-      {/* Grid */}
-      <div className="px-5 md:px-12 max-w-7xl mx-auto pb-28">
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-5">
+      {/* Grid — 1 col on very small, 2 col on mobile, 3 col on desktop */}
+      <div className="px-4 sm:px-6 md:px-12 max-w-7xl mx-auto pb-8">
+        <div className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 gap-3 md:gap-5">
           {filtered.map((item, i) => <CakeCard key={item.id} item={item} index={i} />)}
         </div>
 
-        <div className="mt-20 border-t border-champagne/10 pt-14 text-center">
-          <p className="font-serif text-2xl md:text-3xl text-ivory italic mb-4">Don't see what you're looking for?</p>
-          <p className="text-sm text-ivory/35 font-sans mb-8 max-w-sm mx-auto leading-relaxed">We create fully custom cakes for any occasion. Tell us your vision and we'll bring it to life.</p>
-          <Link to="/order" className="btn-primary inline-block"><span>Request Custom Cake</span></Link>
+        <div className="mt-16 border-t border-champagne/10 pt-12 text-center">
+          <p className="font-serif text-xl sm:text-2xl md:text-3xl text-ivory italic mb-3 sm:mb-4">Don't see what you're looking for?</p>
+          <p className="text-sm text-ivory/35 font-sans mb-6 sm:mb-8 max-w-sm mx-auto leading-relaxed">We create fully custom cakes for any occasion. Tell us your vision and we'll bring it to life.</p>
+          <Link to="/order" className="btn-primary inline-flex items-center"><span>Request Custom Cake</span></Link>
         </div>
       </div>
-      <Footer />
+
+      <div className="pb-bottom-nav md:pb-0">
+        <Footer />
+      </div>
       <FloatingWhatsApp />
+      <BottomNav />
     </div>
   );
 }
