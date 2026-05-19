@@ -9,7 +9,7 @@ import LoadingScreen from '../components/shikan/LoadingScreen';
 import TestimonialsSection from '../components/shikan/TestimonialsSection';
 
 const IMGS = {
-  hero:    'https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=1400&q=85',
+  hero:    'https://res.cloudinary.com/dcr7hgmym/image/upload/v1779194020/ChatGPT_Image_May_19_2026_03_32_57_PM_ni2ony.png',
   wedding: 'https://images.unsplash.com/photo-1535141192574-5d4897c12636?w=900&q=80',
   event:   'https://images.unsplash.com/photo-1621303837174-89787a7d4729?w=900&q=80',
   cake1:   'https://images.unsplash.com/photo-1562440499-64c9a111f713?w=900&q=80',

@@ -8,9 +8,8 @@ const WA_ICON = ({ size = 22, color = 'white' }) => (
 );
 
 export default function FloatingWhatsApp() {
-  const [open,  setOpen]  = useState(false);
+  const [open, setOpen] = useState(false);
   const [pulse, setPulse] = useState(false);
-  /* We track mobile so we can shift the FAB above the bottom nav */
   const [isMobile, setIsMobile] = useState(() =>
     typeof window !== 'undefined' && window.innerWidth < 768
   );
@@ -23,7 +22,7 @@ export default function FloatingWhatsApp() {
   }, []);
 
   useEffect(() => {
-    const t = setTimeout(() => setPulse(true), 3000);
+    const t = setTimeout(() => setPulse(true), 4000);
     return () => clearTimeout(t);
   }, []);
 
@@ -40,69 +39,84 @@ export default function FloatingWhatsApp() {
     setOpen(false);
   };
 
-  /* On mobile, bottom-nav is 64px tall + safe area. On desktop, use 24px. */
-  const fabBottom  = isMobile ? 'calc(64px + env(safe-area-inset-bottom, 0px) + 12px)' : '24px';
+  /* Position FAB above the bottom nav on mobile */
+  const fabBottom = isMobile 
+    ? 'calc(84px + env(safe-area-inset-bottom, 0px))'
+    : '32px';
   const popupBottom = isMobile
-    ? 'calc(64px + env(safe-area-inset-bottom, 0px) + 84px)'
-    : '88px';
+    ? 'calc(144px + env(safe-area-inset-bottom, 0px))'
+    : '112px';
 
   return (
     <>
-      {/* Popup card */}
+      {/* Elegant Chat Popup */}
       <div
-        className="fixed right-4 sm:right-6 z-50 transition-all duration-400 ease-out"
+        className="fixed right-4 sm:right-6 z-45 transition-all duration-500 ease-out"
         style={{
           bottom: popupBottom,
           opacity: open ? 1 : 0,
-          transform: open ? 'translateY(0) scale(1)' : 'translateY(16px) scale(0.95)',
+          transform: open ? 'translateY(0) scale(1)' : 'translateY(20px) scale(0.92)',
           pointerEvents: open ? 'all' : 'none',
+          perspective: '1000px',
         }}
       >
         <div
-          className="w-72 overflow-hidden shadow-2xl"
-          style={{ background: 'hsl(350, 45%, 9%)', border: '1px solid hsla(355,72%,52%,0.2)' }}
+          className="w-72 overflow-hidden backdrop-blur-md"
+          style={{
+            background: 'rgba(10, 3, 5, 0.8)',
+            border: '1px solid hsla(355, 72%, 52%, 0.2)',
+            borderRadius: '16px',
+            boxShadow: '0 20px 60px -15px rgba(0, 0, 0, 0.5), inset 0 1px 0 hsla(355, 72%, 52%, 0.1)',
+          }}
         >
-          {/* Header strip */}
-          <div className="px-5 py-4 flex items-center gap-3" style={{ background: 'hsl(355, 65%, 44%)' }}>
-            <div className="w-8 h-8 rounded-full bg-white/15 flex items-center justify-center flex-shrink-0">
-              <WA_ICON size={15} />
+          {/* Header */}
+          <div 
+            className="px-6 py-5 flex items-center gap-3 border-b"
+            style={{ borderColor: 'hsla(355, 72%, 52%, 0.1)' }}
+          >
+            <div className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0" style={{ background: 'hsla(355, 72%, 52%, 0.15)' }}>
+              <WA_ICON size={18} />
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-white text-xs font-sans font-medium">Shikan Pastries</p>
-              <div className="flex items-center gap-1.5 mt-0.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-green-400 flex-shrink-0" />
-                <p className="text-white/60 text-[10px] font-sans">Usually replies instantly</p>
+              <p className="text-ivory text-sm font-sans font-light">Shikan Pastries</p>
+              <div className="flex items-center gap-1.5 mt-1">
+                <span 
+                  className="w-2 h-2 rounded-full flex-shrink-0"
+                  style={{
+                    background: '#22c55e',
+                    animation: 'glow-breath 2s ease-in-out infinite',
+                  }}
+                />
+                <p className="text-ivory/40 text-[10px] font-sans font-light">Usually replies instantly</p>
               </div>
             </div>
             <button
-              className="w-8 h-8 flex items-center justify-center text-white/50 hover:text-white transition-colors"
+              className="w-8 h-8 flex items-center justify-center text-ivory/50 hover:text-ivory transition-colors duration-300"
               onClick={() => setOpen(false)}
               aria-label="Close"
             >
-              <X size={13} />
+              <X size={14} strokeWidth={2} />
             </button>
           </div>
 
-          {/* Chat bubble */}
-          <div className="p-5">
-            <div className="bg-walnut p-4 mb-5 relative" style={{ borderRadius: '0 8px 8px 8px' }}>
-              <div
-                className="absolute -top-2 left-0 w-0 h-0"
-                style={{
-                  borderLeft: '8px solid transparent',
-                  borderRight: '0px solid transparent',
-                  borderBottom: '8px solid hsl(350, 38%, 12%)',
-                }}
-              />
-              <p className="text-ivory/75 text-xs font-sans font-light leading-relaxed">
-                Hello! 👋 Welcome to Shikan Pastries — Maai Mahiu's artisan cake studio. How can we create something beautiful for you today?
+          {/* Message */}
+          <div className="p-6">
+            <div 
+              className="p-4 mb-6"
+              style={{
+                background: 'linear-gradient(135deg, hsla(355, 72%, 52%, 0.1) 0%, hsla(355, 72%, 52%, 0.05) 100%)',
+                borderRadius: '12px',
+                border: '1px solid hsla(355, 72%, 52%, 0.15)',
+              }}
+            >
+              <p className="text-ivory/70 text-sm font-sans font-light leading-relaxed">
+                Welcome to Shikan Pastries 👋 — your premier artisan cake studio. We'd love to create something beautiful for your celebration.
               </p>
-              <p className="text-ivory/20 text-[9px] font-sans mt-2 text-right">Just now</p>
             </div>
             <button
               onClick={sendMessage}
-              className="btn-primary w-full"
-              style={{ padding: '0.85rem 1rem' }}
+              className="btn-primary w-full text-[11px]"
+              style={{ padding: '0.9rem 1.2rem' }}
             >
               <span>Start Conversation</span>
             </button>
@@ -110,27 +124,65 @@ export default function FloatingWhatsApp() {
         </div>
       </div>
 
-      {/* FAB */}
+      {/* Floating FAB — Elegant & Minimal */}
       <button
         onClick={handleOpen}
-        className="fixed right-4 sm:right-6 z-50 w-14 h-14 flex items-center justify-center shadow-2xl transition-all duration-350 hover:scale-110 active:scale-95"
+        className="fixed right-4 sm:right-6 z-50 transition-all duration-400"
         style={{
-          background: 'hsl(355, 65%, 44%)',
+          width: '52px',
+          height: '52px',
           bottom: fabBottom,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          borderRadius: '50%',
+          background: 'hsl(355, 72%, 52%)',
+          border: '1px solid hsla(30, 40%, 92%, 0.1)',
+          cursor: 'pointer',
+          boxShadow: open 
+            ? '0 12px 40px -10px rgba(207, 54, 59, 0.5)' 
+            : '0 8px 24px -8px rgba(207, 54, 59, 0.35)',
+          transform: open ? 'scale(1)' : 'scale(1)',
+        }}
+        onMouseEnter={(e) => {
+          if (!open) {
+            e.currentTarget.style.transform = 'scale(1.08)';
+            e.currentTarget.style.boxShadow = '0 12px 40px -10px rgba(207, 54, 59, 0.5)';
+          }
+        }}
+        onMouseLeave={(e) => {
+          if (!open) {
+            e.currentTarget.style.transform = 'scale(1)';
+            e.currentTarget.style.boxShadow = '0 8px 24px -8px rgba(207, 54, 59, 0.35)';
+          }
         }}
         aria-label="Chat on WhatsApp"
       >
+        {/* Soft pulse glow (subtle) */}
         {pulse && !open && (
-          <span
-            className="absolute inset-0 animate-pulse-glow pointer-events-none"
-            style={{ background: 'hsl(355, 65%, 44%)' }}
+          <div
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              borderRadius: '50%',
+              background: 'hsl(355, 72%, 52%)',
+              animation: 'soft-pulse 2.5s ease-in-out infinite',
+            }}
           />
         )}
+
+        {/* Icon */}
         <div
-          className="transition-all duration-300"
-          style={{ transform: open ? 'rotate(90deg) scale(0.85)' : 'rotate(0deg) scale(1)' }}
+          className="transition-all duration-400 relative z-10"
+          style={{ 
+            transform: open ? 'rotate(-45deg) scale(0.8)' : 'rotate(0deg) scale(1)',
+            opacity: open ? 0.7 : 1,
+          }}
         >
-          {open ? <X size={20} className="text-white" /> : <WA_ICON size={22} />}
+          {open ? (
+            <X size={20} style={{ color: 'hsl(30, 40%, 96%)' }} />
+          ) : (
+            <WA_ICON size={20} />
+          )}
         </div>
       </button>
     </>

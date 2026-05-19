@@ -30,33 +30,69 @@ function GalleryItem({ item, index }) {
   return (
     <div
       ref={ref}
-      className={`${item.span} relative overflow-hidden cursor-pointer min-h-[200px]`}
+      className={`${item.span} relative overflow-hidden cursor-pointer group`}
+      style={{ minHeight: 'clamp(180px, 22vw, 280px)' }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
-      style={{
-        opacity: inView ? 1 : 0,
-        transform: inView ? 'scale(1)' : 'scale(0.96)',
-        transition: `opacity 0.8s ease ${index * 0.1}s, transform 0.8s cubic-bezier(0.22,1,0.36,1) ${index * 0.1}s`,
-      }}
     >
-      <img
-        src={item.img}
-        alt={item.label}
-        className="w-full h-full object-cover transition-transform duration-700"
-        style={{
-          transform: hovered ? 'scale(1.08)' : 'scale(1.0)',
-          filter: 'brightness(0.75) contrast(1.1) saturate(0.9)',
-        }}
-      />
-
-      {/* Hover overlay */}
+      {/* Animated entrance */}
       <div
-        className="absolute inset-0 bg-espresso/50 flex items-end p-5 transition-opacity duration-400"
-        style={{ opacity: hovered ? 1 : 0 }}
+        style={{
+          opacity: inView ? 1 : 0,
+          transform: inView ? 'scale(1)' : 'scale(0.95)',
+          transition: `opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1) ${index * 0.08}s, transform 0.9s cubic-bezier(0.22, 1, 0.36, 1) ${index * 0.08}s`,
+        }}
+        className="w-full h-full relative"
       >
-        <div className="flex items-center justify-between w-full">
-          <p className="font-serif text-lg text-ivory italic">{item.label}</p>
-          <Instagram size={14} className="text-champagne" />
+        {/* Image */}
+        <img
+          src={item.img}
+          alt={item.label}
+          className="w-full h-full object-cover transition-transform duration-700"
+          style={{
+            transform: hovered ? 'scale(1.06)' : 'scale(1.0)',
+            filter: hovered 
+              ? 'brightness(0.65) contrast(1.15) saturate(0.95)' 
+              : 'brightness(0.75) contrast(1.1) saturate(0.9)',
+          }}
+        />
+
+        {/* Overlay — elegant gradient */}
+        <div
+          className="absolute inset-0 transition-all duration-500"
+          style={{
+            background: hovered 
+              ? 'linear-gradient(135deg, rgba(10,3,5,0.7) 0%, rgba(207,54,59,0.2) 100%)'
+              : 'linear-gradient(135deg, rgba(10,3,5,0.3) 0%, rgba(10,3,5,0.6) 100%)',
+          }}
+        />
+
+        {/* Label + Icon */}
+        <div
+          className="absolute inset-0 flex items-end p-5 md:p-6 transition-all duration-500"
+          style={{
+            opacity: hovered ? 1 : 0.6,
+          }}
+        >
+          <div className="flex items-center justify-between w-full gap-4">
+            <p className="font-serif text-base md:text-lg text-ivory italic leading-tight">
+              {item.label}
+            </p>
+            <div
+              className="w-6 h-6 flex-shrink-0 flex items-center justify-center rounded transition-all duration-300"
+              style={{
+                background: hovered ? 'hsla(355, 72%, 52%, 0.25)' : 'transparent',
+              }}
+            >
+              <Instagram 
+                size={14} 
+                className="text-champagne transition-transform duration-300"
+                style={{
+                  transform: hovered ? 'scale(1.1)' : 'scale(1)',
+                }}
+              />
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -68,62 +104,86 @@ export default function GallerySection() {
   const headInView = useInView(headRef);
 
   return (
-    <section id="gallery" className="py-32 md:py-40 grain-overlay" style={{ background: 'hsl(350, 50%, 6%)' }}>
-      <div className="max-w-7xl mx-auto px-6 md:px-12">
-        {/* Header */}
-        <div ref={headRef} className="mb-16 flex flex-col md:flex-row md:items-end justify-between gap-8">
+    <section id="gallery" className="py-40 md:py-56 grain-overlay relative overflow-hidden" style={{ background: 'hsl(350, 50%, 6%)' }}>
+      {/* Subtle background glow */}
+      <div 
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background: 'radial-gradient(ellipse 100% 60% at 50% 20%, hsla(355, 72%, 52%, 0.03) 0%, transparent 70%)',
+        }}
+      />
+
+      <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
+        {/* Header with improved hierarchy */}
+        <div ref={headRef} className="mb-24 md:mb-32 flex flex-col md:flex-row md:items-end justify-between gap-12">
           <div>
             <p
-              className="text-[10px] tracking-[0.45em] text-champagne uppercase font-sans mb-5 transition-all duration-700"
-              style={{ opacity: headInView ? 1 : 0 }}
+              className="text-[9px] tracking-[0.45em] text-champagne/60 uppercase font-sans mb-6 transition-all duration-700"
+              style={{ opacity: headInView ? 1 : 0, transform: headInView ? 'translateY(0)' : 'translateY(-10px)' }}
             >
               — Visual Stories
             </p>
             <h2
-              className="font-serif text-[clamp(2.8rem,5.5vw,5rem)] text-ivory leading-[0.95] transition-all duration-700 delay-100"
-              style={{ opacity: headInView ? 1 : 0, transform: headInView ? 'translateY(0)' : 'translateY(30px)' }}
+              className="font-serif text-[clamp(2.8rem,6.5vw,5.5rem)] text-ivory leading-[0.92] transition-all duration-900 delay-100"
+              style={{ 
+                opacity: headInView ? 1 : 0, 
+                transform: headInView ? 'translateY(0)' : 'translateY(40px)',
+                letterSpacing: '-0.02em',
+              }}
             >
               The Gallery
             </h2>
+            <div
+              className="h-px w-16 bg-champagne/40 mt-8 transition-all duration-900 delay-200"
+              style={{ width: headInView ? '64px' : '0px' }}
+            />
           </div>
 
           <div
-            className="flex items-center gap-6 transition-all duration-700 delay-200"
-            style={{ opacity: headInView ? 1 : 0 }}
+            className="transition-all duration-900 delay-300"
+            style={{ opacity: headInView ? 1 : 0, transform: headInView ? 'translateY(0)' : 'translateY(20px)' }}
           >
             <a
               href="https://instagram.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 text-champagne/60 hover:text-champagne transition-colors duration-300 group"
+              className="group inline-flex items-center gap-3"
             >
-              <Instagram size={16} />
-              <span className="text-[10px] tracking-[0.25em] uppercase font-sans">@shikanpastries</span>
-              <span className="w-0 group-hover:w-8 h-px bg-champagne transition-all duration-300" />
+              <div className="flex flex-col">
+                <span className="text-[10px] tracking-[0.3em] uppercase font-sans text-ivory/50 group-hover:text-champagne transition-colors duration-300">Follow Us</span>
+                <span className="text-[11px] tracking-[0.25em] uppercase font-sans text-champagne font-light">@shikanpastries</span>
+              </div>
+              <Instagram size={16} className="text-champagne/50 group-hover:text-champagne transition-colors duration-300" />
             </a>
           </div>
         </div>
 
-        {/* Masonry Grid */}
+        {/* Masonry Grid with improved styling */}
         <div
-          className="grid grid-cols-3 gap-3 md:gap-4"
-          style={{ gridTemplateRows: 'repeat(3, 280px)' }}
+          className="grid grid-cols-3 gap-4 md:gap-5"
+          style={{ gridTemplateRows: 'repeat(3, clamp(180px, 22vw, 280px))' }}
         >
           {GALLERY.map((item, i) => (
             <GalleryItem key={i} item={item} index={i} />
           ))}
         </div>
 
-        {/* Bottom CTA */}
-        <div className="mt-12 text-center">
+        {/* Bottom CTA with refined styling */}
+        <div 
+          className="mt-20 md:mt-28 pt-16 md:pt-24 border-t"
+          style={{ borderColor: 'hsla(355, 72%, 52%, 0.15)' }}
+        >
           <a
             href="https://instagram.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-3 text-champagne/50 hover:text-champagne transition-colors duration-300 group"
+            className="inline-flex items-center gap-4 group"
           >
-            <span className="text-[11px] tracking-[0.3em] uppercase font-sans">View Full Gallery on Instagram</span>
-            <span className="w-8 h-px bg-champagne/30 group-hover:w-16 group-hover:bg-champagne transition-all duration-500" />
+            <div className="flex flex-col">
+              <span className="text-[10px] tracking-[0.3em] uppercase font-sans text-ivory/40 group-hover:text-champagne transition-colors duration-300">Discover More</span>
+              <span className="text-sm tracking-[0.15em] font-sans text-ivory group-hover:text-champagne transition-colors duration-300 font-light">On Instagram</span>
+            </div>
+            <div className="w-8 h-px bg-champagne/30 group-hover:w-16 group-hover:bg-champagne transition-all duration-400" />
           </a>
         </div>
       </div>

@@ -61,7 +61,7 @@ function PastryCard({ item, index }) {
   return (
     <div
       ref={ref}
-      className="relative group cursor-pointer"
+      className="group cursor-pointer"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{
@@ -70,56 +70,93 @@ function PastryCard({ item, index }) {
         transition: `opacity 0.8s ease ${index * 0.12}s, transform 0.8s cubic-bezier(0.22,1,0.36,1) ${index * 0.12}s`,
       }}
     >
-      {/* Image Container */}
-      <div className="relative overflow-hidden bg-walnut aspect-[3/4]">
+      {/* Image Container with premium overlay */}
+      <div className="relative overflow-hidden bg-walnut aspect-[3/4] mb-6">
         <img
           src={item.img}
           alt={item.name}
-          className="w-full h-full object-cover transition-transform duration-700 ease-out"
+          className="w-full h-full object-cover transition-transform duration-700"
           style={{ transform: hovered ? 'scale(1.08)' : 'scale(1.0)' }}
         />
 
-        {/* Overlay */}
+        {/* Multi-layer overlay for depth */}
         <div
-          className="absolute inset-0 bg-espresso/70 flex items-center justify-center transition-opacity duration-500"
-          style={{ opacity: hovered ? 1 : 0 }}
+          className="absolute inset-0 transition-all duration-500"
+          style={{
+            background: hovered 
+              ? 'linear-gradient(180deg, rgba(10,3,5,0.3) 0%, rgba(207,54,59,0.3) 50%, rgba(10,3,5,0.7) 100%)'
+              : 'linear-gradient(180deg, rgba(10,3,5,0.2) 0%, rgba(10,3,5,0.5) 100%)',
+          }}
+        />
+
+        {/* CTA Button */}
+        <div
+          className="absolute inset-0 flex items-center justify-center transition-all duration-500"
+          style={{
+            opacity: hovered ? 1 : 0,
+            pointerEvents: hovered ? 'all' : 'none',
+          }}
         >
           <button
             className="btn-primary text-[10px]"
-            style={{ padding: '0.7rem 1.8rem' }}
+            style={{ padding: '0.75rem 1.8rem' }}
             onClick={() => document.querySelector('#contact')?.scrollIntoView({ behavior: 'smooth' })}
           >
             <span>Order This</span>
           </button>
         </div>
 
-        {/* Tag */}
+        {/* Premium Tag */}
         {item.tag && (
-          <div className="absolute top-4 left-4 z-10">
-            <span className="text-[9px] tracking-[0.25em] uppercase font-sans text-espresso bg-champagne px-2 py-1">
+          <div
+            className="absolute top-4 left-4 z-10 transition-all duration-300"
+            style={{
+              transform: hovered ? 'scale(1.05)' : 'scale(1)',
+            }}
+          >
+            <span 
+              className="text-[8px] tracking-[0.3em] uppercase font-sans px-2.5 py-1.5 backdrop-blur-md"
+              style={{
+                background: 'rgba(245, 228, 208, 0.15)',
+                color: 'hsl(355, 72%, 62%)',
+                border: '1px solid hsla(355, 72%, 52%, 0.3)',
+                display: 'inline-block',
+              }}
+            >
               {item.tag}
             </span>
           </div>
         )}
       </div>
 
-      {/* Info */}
-      <div className="pt-5 pb-2">
-        <div className="flex items-start justify-between mb-2">
-          <div>
-            <p className="text-[9px] tracking-[0.3em] text-champagne/60 uppercase font-sans mb-1">{item.category}</p>
-            <h3 className="font-serif text-xl text-ivory leading-tight">{item.name}</h3>
+      {/* Info Section */}
+      <div className="space-y-3">
+        <div className="flex items-start justify-between gap-3">
+          <div className="flex-1">
+            <p className="text-[8px] tracking-[0.35em] text-champagne/50 uppercase font-sans mb-2">
+              {item.category}
+            </p>
+            <h3 className="font-serif text-lg md:text-xl text-ivory leading-snug">
+              {item.name}
+            </h3>
           </div>
-          <span className="font-serif text-sm text-champagne mt-1 whitespace-nowrap ml-4">{item.price}</span>
+          <span className="font-serif text-sm text-champagne flex-shrink-0 whitespace-nowrap mt-1">
+            {item.price}
+          </span>
         </div>
-        <p className="text-xs text-ivory/40 font-sans font-light leading-relaxed line-clamp-2">{item.description}</p>
-      </div>
 
-      {/* Hover underline */}
-      <div
-        className="h-px bg-champagne/40 transition-all duration-500"
-        style={{ width: hovered ? '100%' : '0%' }}
-      />
+        <p className="text-xs text-ivory/40 font-sans font-light leading-relaxed line-clamp-2">
+          {item.description}
+        </p>
+
+        {/* Hover underline effect */}
+        <div
+          className="h-px bg-champagne/30 transition-all duration-500 origin-left"
+          style={{ 
+            transform: hovered ? 'scaleX(1)' : 'scaleX(0)',
+          }}
+        />
+      </div>
     </div>
   );
 }
@@ -132,72 +169,107 @@ export default function SignatureCollection() {
   const filtered = filter === 'All' ? ITEMS : ITEMS.filter(i => i.category === filter);
 
   return (
-    <section id="collection" className="py-32 md:py-40 bg-espresso grain-overlay">
-      <div className="max-w-7xl mx-auto px-6 md:px-12">
-        {/* Header */}
-        <div ref={headRef} className="mb-20">
-          <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8">
+    <section id="collection" className="py-40 md:py-56 bg-espresso grain-overlay relative overflow-hidden">
+      {/* Subtle accent glow */}
+      <div 
+        className="absolute top-1/3 right-0 pointer-events-none"
+        style={{
+          background: 'radial-gradient(ellipse 80% 60% at 100% 50%, hsla(355, 72%, 52%, 0.03) 0%, transparent 70%)',
+        }}
+      />
+
+      <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
+        {/* Header with improved hierarchy */}
+        <div ref={headRef} className="mb-24 md:mb-32">
+          <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-12 mb-12">
             <div>
               <p
-                className="text-[10px] tracking-[0.45em] text-champagne uppercase font-sans mb-5 transition-all duration-700"
-                style={{ opacity: headInView ? 1 : 0, transform: headInView ? 'translateY(0)' : 'translateY(20px)' }}
+                className="text-[9px] tracking-[0.45em] text-champagne/60 uppercase font-sans mb-6 transition-all duration-700"
+                style={{ opacity: headInView ? 1 : 0, transform: headInView ? 'translateY(0)' : 'translateY(-10px)' }}
               >
                 — The Collection
               </p>
               <h2
-                className="font-serif text-[clamp(2.8rem,6vw,5.5rem)] text-ivory leading-[0.95] transition-all duration-700 delay-100"
-                style={{ opacity: headInView ? 1 : 0, transform: headInView ? 'translateY(0)' : 'translateY(30px)' }}
+                className="font-serif text-[clamp(2.8rem,6.5vw,5.5rem)] text-ivory leading-[0.92] transition-all duration-900 delay-100"
+                style={{
+                  opacity: headInView ? 1 : 0,
+                  transform: headInView ? 'translateY(0)' : 'translateY(40px)',
+                  letterSpacing: '-0.02em',
+                }}
               >
                 Signature
                 <br />
-                <em className="text-champagne">Creations</em>
+                <em className="text-champagne font-serif font-400">Creations</em>
               </h2>
             </div>
 
-            {/* Filters */}
+            {/* Premium Filter Buttons */}
             <div
-              className="flex items-center gap-1 transition-all duration-700 delay-200"
-              style={{ opacity: headInView ? 1 : 0 }}
+              className="transition-all duration-900 delay-200"
+              style={{ opacity: headInView ? 1 : 0, transform: headInView ? 'translateY(0)' : 'translateY(20px)' }}
             >
-              {FILTERS.map(f => (
-                <button
-                  key={f}
-                  onClick={() => setFilter(f)}
-                  className="text-[10px] tracking-[0.2em] uppercase font-sans px-4 py-2 transition-all duration-300"
-                  style={{
-                    color: filter === f ? 'hsl(30, 40%, 96%)' : 'rgba(220,80,90,0.5)',
-                    background: filter === f ? 'hsl(355, 72%, 52%)' : 'transparent',
-                    border: `1px solid ${filter === f ? 'hsl(355, 72%, 52%)' : 'rgba(220,80,90,0.25)'}`,
-                  }}
-                >
-                  {f}
-                </button>
-              ))}
+              <div className="flex items-center gap-2 md:gap-3 flex-wrap">
+                {FILTERS.map((f, idx) => (
+                  <button
+                    key={f}
+                    onClick={() => setFilter(f)}
+                    className="text-[9px] tracking-[0.25em] uppercase font-sans px-4 md:px-5 py-2.5 md:py-3 transition-all duration-400 relative overflow-hidden"
+                    style={{
+                      color: filter === f ? 'hsl(30, 40%, 96%)' : 'hsl(355, 72%, 52%)',
+                      background: filter === f ? 'hsl(355, 72%, 52%)' : 'transparent',
+                      border: `1px solid ${filter === f ? 'hsl(355, 72%, 52%)' : 'hsla(355, 72%, 52%, 0.3)'}`,
+                      transform: filter === f ? 'scale(1)' : 'scale(1)',
+                    }}
+                    onMouseEnter={(e) => {
+                      if (filter !== f) {
+                        e.currentTarget.style.borderColor = 'hsl(355, 72%, 52%)';
+                        e.currentTarget.style.color = 'hsl(355, 72%, 62%)';
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      if (filter !== f) {
+                        e.currentTarget.style.borderColor = 'hsla(355, 72%, 52%, 0.3)';
+                        e.currentTarget.style.color = 'hsl(355, 72%, 52%)';
+                      }
+                    }}
+                  >
+                    {f}
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
 
-          {/* Decorative line */}
+          {/* Elegant divider line */}
           <div
-            className="mt-10 h-px bg-champagne/20 transition-all duration-1000 delay-300"
+            className="h-px bg-champagne/20 transition-all duration-1000 delay-400"
             style={{ width: headInView ? '100%' : '0%' }}
           />
         </div>
 
-        {/* Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-10">
+        {/* Grid with improved spacing */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-10 mb-20">
           {filtered.map((item, i) => (
             <PastryCard key={item.id} item={item} index={i} />
           ))}
         </div>
 
-        {/* CTA */}
-        <div className="mt-20 text-center">
-          <button
-            className="btn-outline"
-            onClick={() => document.querySelector('#contact')?.scrollIntoView({ behavior: 'smooth' })}
-          >
-            <span>Enquire for Custom Orders</span>
-          </button>
+        {/* Bottom CTA with refined styling */}
+        <div className="pt-16 md:pt-24 border-t" style={{ borderColor: 'hsla(355, 72%, 52%, 0.15)' }}>
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-8 justify-between">
+            <div>
+              <p className="text-[9px] tracking-[0.3em] text-champagne/50 uppercase font-sans mb-2">Special Orders</p>
+              <p className="text-sm text-ivory/60 font-sans font-light max-w-xs">
+                Don't see what you're looking for? We craft custom creations for your unique celebration.
+              </p>
+            </div>
+            <button
+              className="btn-primary text-[10px] flex-shrink-0"
+              onClick={() => document.querySelector('#contact')?.scrollIntoView({ behavior: 'smooth' })}
+            >
+              <span>Enquire for Custom Orders</span>
+            </button>
+          </div>
         </div>
       </div>
     </section>
