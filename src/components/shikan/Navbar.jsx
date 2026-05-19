@@ -40,17 +40,12 @@ export default function Navbar() {
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-12 py-3 md:py-5 flex items-center justify-between">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-2.5 group" style={{ minHeight: 44 }}>
+          <Link to="/" className="flex items-center group" style={{ minHeight: 44 }}>
             <img
-              src="https://res.cloudinary.com/dcr7hgmym/image/upload/v1779129808/ChatGPT_Image_May_18__2026__08_22_38_PM-removebg-preview_ehedtx.png"
+              src="https://res.cloudinary.com/dcr7hgmym/image/upload/f_auto,q_auto,w_400/v1779129808/ChatGPT_Image_May_18__2026__08_22_38_PM-removebg-preview_ehedtx.png"
               alt="Shikan Pastries logo"
-              className="w-8 h-8 sm:w-9 sm:h-9 object-contain flex-shrink-0"
-              style={{ borderRadius: 4 }}
+              className="w-20 h-20 sm:w-28 sm:h-28 object-contain flex-shrink-0 transition-transform duration-500 group-hover:scale-105"
             />
-            <div>
-              <span className="font-serif text-lg sm:text-xl text-ivory italic leading-none tracking-tight group-hover:text-champagne transition-colors duration-400">Shikan</span>
-              <span className="block text-[7px] tracking-[0.4em] text-champagne/60 uppercase font-sans leading-none mt-0.5">Pastries</span>
-            </div>
           </Link>
 
           {/* Desktop Nav */}
@@ -71,12 +66,8 @@ export default function Navbar() {
             ))}
           </div>
 
-          {/* CTA + Hamburger */}
+          {/* Hamburger */}
           <div className="flex items-center gap-2">
-            <Link to="/order" className="hidden md:block btn-primary text-[9px]" style={{ padding: '0.6rem 1.5rem' }}>
-              <span>Order Now</span>
-            </Link>
-
             {/* Hamburger — 44×44 touch target */}
             <button
               className="md:hidden touch-target text-ivory/70 hover:text-champagne transition-colors relative"

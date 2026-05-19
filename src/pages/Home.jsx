@@ -9,7 +9,7 @@ import LoadingScreen from '../components/shikan/LoadingScreen';
 import TestimonialsSection from '../components/shikan/TestimonialsSection';
 
 const IMGS = {
-  hero:    'https://res.cloudinary.com/dcr7hgmym/image/upload/v1779194020/ChatGPT_Image_May_19_2026_03_32_57_PM_ni2ony.png',
+  hero:    'https://res.cloudinary.com/dcr7hgmym/image/upload/f_auto,q_auto,w_1200/v1779194020/ChatGPT_Image_May_19_2026_03_32_57_PM_ni2ony.png',
   wedding: 'https://images.unsplash.com/photo-1535141192574-5d4897c12636?w=900&q=80',
   event:   'https://images.unsplash.com/photo-1621303837174-89787a7d4729?w=900&q=80',
   cake1:   'https://images.unsplash.com/photo-1562440499-64c9a111f713?w=900&q=80',
@@ -115,16 +115,17 @@ function HeroSection() {
           >Story</span>
         </h1>
 
-        {/* CTAs — full width stacked on mobile */}
+        {/* CTAs — styled exactly like user mockup */}
         <div
-          className="flex flex-col xs:flex-row gap-3 mb-12 md:mb-16 transition-all duration-1000 delay-600"
+          className="flex flex-col items-start gap-5 mb-12 md:mb-16 transition-all duration-1000 delay-600"
           style={{ opacity: visible ? 1 : 0, transform: visible ? 'translateY(0)' : 'translateY(20px)' }}
         >
-          <Link to="/collection" className="btn-primary text-center flex-1 xs:flex-none flex items-center justify-center">
-            <span>View Our Cakes</span>
+          <Link to="/order" className="btn-primary text-center flex items-center justify-center px-10">
+            <span>Order Your Cake</span>
           </Link>
-          <Link to="/order" className="btn-outline text-center flex-1 xs:flex-none flex items-center justify-center">
-            <span>Order Now</span>
+          <Link to="/gallery" className="text-[10px] sm:text-[11px] tracking-[0.2em] text-ivory/60 hover:text-champagne uppercase font-sans transition-colors duration-300 flex items-center gap-2 group" style={{ marginLeft: '10%' }}>
+            <span>View Gallery</span>
+            <span className="font-serif italic text-lg transition-transform duration-300 group-hover:translate-x-1">→</span>
           </Link>
         </div>
 
@@ -208,7 +209,7 @@ function FeaturedSection() {
             <Link
               key={c.title}
               to={c.href}
-              className="group relative overflow-hidden flex-shrink-0 block"
+              className="group relative overflow-hidden flex-shrink-0 block rounded-2xl"
               style={{
                 width: '72vw',
                 maxWidth: 280,
@@ -235,7 +236,7 @@ function FeaturedSection() {
             <Link
               key={c.title}
               to={c.href}
-              className="group relative overflow-hidden block"
+              className="group relative overflow-hidden block rounded-2xl"
               style={{
                 opacity: inView ? 1 : 0,
                 transform: inView ? 'translateY(0)' : 'translateY(50px)',
@@ -288,13 +289,13 @@ function StorySection() {
               transition: 'all 1s cubic-bezier(0.22,1,0.36,1)',
             }}
           >
-            <div className="row-span-2 overflow-hidden" style={{ aspectRatio: '2/3' }}>
+            <div className="row-span-2 overflow-hidden rounded-2xl" style={{ aspectRatio: '2/3' }}>
               <img src={IMGS.event} alt="Shikan Event" className="w-full h-full object-cover" loading="lazy" />
             </div>
-            <div className="overflow-hidden aspect-square">
+            <div className="overflow-hidden aspect-square rounded-2xl">
               <img src={IMGS.cake4} alt="Birthday cake" className="w-full h-full object-cover" loading="lazy" />
             </div>
-            <div className="overflow-hidden aspect-square">
+            <div className="overflow-hidden aspect-square rounded-2xl">
               <img src={IMGS.cake2} alt="Custom cake" className="w-full h-full object-cover" loading="lazy" />
             </div>
           </div>
@@ -368,7 +369,7 @@ function ProcessSection() {
           {steps.map((s, i) => (
             <div
               key={s.n}
-              className="bg-espresso p-5 sm:p-7 md:p-10 hover:bg-walnut transition-colors duration-500"
+              className="bg-espresso p-5 sm:p-7 md:p-10 hover:bg-walnut transition-colors duration-500 rounded-2xl m-px"
               style={{
                 opacity: inView ? 1 : 0,
                 transform: inView ? 'translateY(0)' : 'translateY(30px)',
@@ -421,14 +422,14 @@ function CTABanner() {
         >
           <Link
             to="/order"
-            className="flex items-center justify-center bg-espresso text-ivory font-sans tracking-[0.28em] uppercase border border-white/15 hover:bg-white hover:text-espresso transition-all duration-400"
+            className="flex items-center justify-center bg-espresso text-ivory font-sans tracking-[0.28em] uppercase border border-white/15 hover:bg-white hover:text-espresso transition-all duration-400 rounded-full"
             style={{ fontSize: '0.68rem', padding: '1rem 2.5rem', minHeight: 52 }}
           >
             Place Your Order
           </Link>
           <Link
             to="/gallery"
-            className="flex items-center justify-center bg-transparent text-white font-sans tracking-[0.28em] uppercase border border-white/40 hover:border-white hover:bg-white/10 transition-all duration-400"
+            className="flex items-center justify-center bg-transparent text-white font-sans tracking-[0.28em] uppercase border border-white/40 hover:border-white hover:bg-white/10 transition-all duration-400 rounded-full"
             style={{ fontSize: '0.68rem', padding: '1rem 2.5rem', minHeight: 52 }}
           >
             View Gallery

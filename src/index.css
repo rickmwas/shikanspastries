@@ -300,10 +300,13 @@
   position: relative;
   overflow: hidden;
   transition: all 0.45s cubic-bezier(0.22, 1, 0.36, 1);
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   /* Good touch target */
   min-height: 48px;
   line-height: 1;
+  border-radius: 9999px;
 }
 
 .btn-primary::after {
@@ -352,9 +355,12 @@
   position: relative;
   overflow: hidden;
   transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   min-height: 48px;
   line-height: 1;
+  border-radius: 9999px;
 }
 
 .btn-outline::before {

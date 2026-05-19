@@ -140,7 +140,7 @@ export default function TestimonialsSection() {
           <div className="md:hidden">
             {/* Image */}
             <div
-              className="relative overflow-hidden mb-0"
+              className="relative overflow-hidden mb-0 rounded-t-2xl"
               style={{
                 aspectRatio: '3/2',
                 opacity: animating ? 0 : 1,
@@ -163,7 +163,7 @@ export default function TestimonialsSection() {
 
             {/* Review card */}
             <div
-              className="p-6 sm:p-8"
+              className="p-6 sm:p-8 rounded-b-2xl"
               style={{
                 background: 'hsl(350, 40%, 10%)',
                 opacity: animating ? 0 : 1,
@@ -232,7 +232,7 @@ export default function TestimonialsSection() {
           {/* Desktop layout: side-by-side */}
           <div className="hidden md:grid md:grid-cols-2 gap-0">
             <div
-              className="relative overflow-hidden"
+              className="relative overflow-hidden rounded-l-2xl"
               style={{
                 aspectRatio: '4/3',
                 opacity: animating ? 0 : 1,
@@ -254,7 +254,7 @@ export default function TestimonialsSection() {
             </div>
 
             <div
-              className="flex flex-col justify-between p-10 lg:p-12"
+              className="flex flex-col justify-between p-10 lg:p-12 rounded-r-2xl"
               style={{
                 background: 'hsl(350, 40%, 10%)',
                 opacity: animating ? 0 : 1,
@@ -320,12 +320,12 @@ export default function TestimonialsSection() {
             <button
               key={i}
               onClick={() => { setAnimDir(i > active ? 1 : -1); setActive(i); }}
-              className="relative overflow-hidden transition-all duration-400 touch-active"
+              className="relative overflow-hidden transition-all duration-400 touch-active rounded-xl"
               style={{ opacity: active === i ? 1 : 0.3, aspectRatio: '16/9' }}
               aria-label={`View ${t.name}'s testimonial`}
             >
               <img src={t.img} alt={t.name} className="w-full h-full object-cover" loading="lazy" />
-              {active === i && <div className="absolute inset-0 border border-champagne/70" />}
+              {active === i && <div className="absolute inset-0 border-2 border-champagne/70 rounded-xl" />}
             </button>
           ))}
         </div>

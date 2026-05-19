@@ -42,7 +42,7 @@ function CakeCard({ item, index }) {
   return (
     <div
       ref={ref}
-      className="group bg-walnut overflow-hidden"
+      className="group bg-walnut overflow-hidden rounded-2xl"
       style={{
         opacity: inView ? 1 : 0,
         transform: inView ? 'translateY(0)' : 'translateY(40px)',
@@ -87,7 +87,7 @@ function CakeCard({ item, index }) {
           {/* Mobile always-visible order button */}
           <Link
             to="/order"
-            className="md:hidden text-[8px] tracking-[0.2em] uppercase font-sans text-champagne/60 border border-champagne/20 px-3 py-2 active:scale-95 transition-transform"
+            className="md:hidden flex items-center justify-center text-[8px] tracking-[0.2em] uppercase font-sans text-champagne/60 border border-champagne/20 px-4 active:scale-95 transition-transform rounded-full"
             style={{ minHeight: 36 }}
           >
             Order
@@ -132,7 +132,7 @@ export default function Collection() {
             <button
               key={f}
               onClick={() => setFilter(f)}
-              className="flex-shrink-0 font-sans uppercase transition-all duration-300 active:scale-95"
+              className="flex-shrink-0 font-sans uppercase transition-all duration-300 active:scale-95 rounded-full"
               style={{
                 fontSize: '9px',
                 letterSpacing: '0.2em',

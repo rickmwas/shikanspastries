@@ -111,7 +111,7 @@ function PhotoItem({ photo, index, onOpen }) {
   return (
     <div
       ref={ref}
-      className={`${photo.span} relative overflow-hidden cursor-pointer min-h-[160px] group`}
+      className={`${photo.span} relative overflow-hidden cursor-pointer min-h-[160px] group rounded-2xl`}
       onClick={() => onOpen(index)}
       style={{
         opacity: inView ? 1 : 0,
@@ -176,7 +176,7 @@ export default function Gallery() {
             return (
               <div
                 key={i}
-                className={`relative overflow-hidden cursor-pointer group${isLast && PHOTOS.length % 2 !== 0 ? ' col-span-2' : ''}`}
+                className={`relative overflow-hidden cursor-pointer group rounded-2xl${isLast && PHOTOS.length % 2 !== 0 ? ' col-span-2' : ''}`}
                 style={{ aspectRatio: isLast && PHOTOS.length % 2 !== 0 ? '16/9' : '1/1' }}
                 onClick={() => open(i)}
               >

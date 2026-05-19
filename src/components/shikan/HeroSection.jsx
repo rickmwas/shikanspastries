@@ -3,7 +3,7 @@ const db = globalThis.__B44_DB__ || { auth:{ isAuthenticated: async()=>false, me
 import React, { useEffect, useRef, useState } from 'react';
 import { ArrowDown } from 'lucide-react';
 
-const HERO_IMG = 'https://res.cloudinary.com/dcr7hgmym/image/upload/v1779194020/ChatGPT_Image_May_19_2026_03_32_57_PM_ni2ony.png';
+const HERO_IMG = 'https://res.cloudinary.com/dcr7hgmym/image/upload/f_auto,q_auto,w_1200/v1779194020/ChatGPT_Image_May_19_2026_03_32_57_PM_ni2ony.png';
 
 export default function HeroSection() {
   const [visible, setVisible] = useState(false);
