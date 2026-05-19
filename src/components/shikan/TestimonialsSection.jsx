@@ -2,10 +2,10 @@ import React, { useRef, useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight, Star } from 'lucide-react';
 
 const IMGS = {
-  t1: 'https://images.unsplash.com/photo-1535141192574-5d4897c12636?w=700&q=80',
-  t2: 'https://images.unsplash.com/photo-1562440499-64c9a111f713?w=700&q=80',
-  t3: 'https://images.unsplash.com/photo-1621303837174-89787a7d4729?w=700&q=80',
-  t4: 'https://images.unsplash.com/photo-1542826438-bd32f43d626f?w=700&q=80',
+  t1: 'https://res.cloudinary.com/dcr7hgmym/image/upload/f_auto,q_auto,w_800/v1779129778/shikan4_bylkwj.jpg',
+  t2: 'https://res.cloudinary.com/dcr7hgmym/image/upload/f_auto,q_auto,w_800/v1779129780/shikan_ppcbbu.jpg',
+  t3: 'https://res.cloudinary.com/dcr7hgmym/image/upload/f_auto,q_auto,w_800/v1779129780/shikan3_bpbuhu.jpg',
+  t4: 'https://res.cloudinary.com/dcr7hgmym/image/upload/f_auto,q_auto,w_800/v1779129779/shikan2_lwebyq.jpg',
 };
 
 const TESTIMONIALS = [

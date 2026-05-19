@@ -6,13 +6,13 @@ import Footer from '../components/shikan/Footer';
 import FloatingWhatsApp from '../components/shikan/FloatingWhatsApp';
 
 const PHOTOS = [
-  { url: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=1200&q=85', label: 'Wedding Showcase',  span: 'col-span-2 row-span-2' },
-  { url: 'https://images.unsplash.com/photo-1535141192574-5d4897c12636?w=800&q=80',  label: 'Wedding Cake',     span: 'col-span-1 row-span-1' },
-  { url: 'https://images.unsplash.com/photo-1621303837174-89787a7d4729?w=800&q=80',  label: 'Event Spread',     span: 'col-span-1 row-span-1' },
-  { url: 'https://images.unsplash.com/photo-1562440499-64c9a111f713?w=800&q=80',     label: 'Floral Cake',      span: 'col-span-1 row-span-1' },
-  { url: 'https://images.unsplash.com/photo-1464349095431-e9a21285b5f3?w=800&q=80',  label: 'Birthday Special', span: 'col-span-1 row-span-1' },
-  { url: 'https://images.unsplash.com/photo-1542826438-bd32f43d626f?w=800&q=80',     label: 'Multi-Tier',       span: 'col-span-1 row-span-1' },
-  { url: 'https://images.unsplash.com/photo-1488477181946-6428a0291777?w=800&q=80',  label: 'Birthday Cake',    span: 'col-span-1 row-span-1' },
+  { url: 'https://res.cloudinary.com/dcr7hgmym/image/upload/f_auto,q_auto,w_1200/v1779129780/shikan1_xwaqcf.jpg', label: 'Wedding Showcase',  span: 'col-span-2 row-span-2' },
+  { url: 'https://res.cloudinary.com/dcr7hgmym/image/upload/f_auto,q_auto,w_800/v1779129780/shikan3_bpbuhu.jpg',  label: 'Wedding Cake',     span: 'col-span-1 row-span-1' },
+  { url: 'https://res.cloudinary.com/dcr7hgmym/image/upload/f_auto,q_auto,w_800/v1779129780/shikan_ppcbbu.jpg',  label: 'Event Spread',     span: 'col-span-1 row-span-1' },
+  { url: 'https://res.cloudinary.com/dcr7hgmym/image/upload/f_auto,q_auto,w_800/v1779129779/shikan2_lwebyq.jpg',     label: 'Floral Cake',      span: 'col-span-1 row-span-1' },
+  { url: 'https://res.cloudinary.com/dcr7hgmym/image/upload/f_auto,q_auto,w_800/v1779129778/shikan4_bylkwj.jpg',  label: 'Birthday Special', span: 'col-span-1 row-span-1' },
+  { url: 'https://res.cloudinary.com/dcr7hgmym/image/upload/f_auto,q_auto,w_800/v1779129780/shikan1_xwaqcf.jpg',     label: 'Multi-Tier',       span: 'col-span-1 row-span-1' },
+  { url: 'https://res.cloudinary.com/dcr7hgmym/image/upload/f_auto,q_auto,w_800/v1779129780/shikan3_bpbuhu.jpg',  label: 'Birthday Cake',    span: 'col-span-1 row-span-1' },
 ];
 
 function useInView(ref, threshold = 0.08) {

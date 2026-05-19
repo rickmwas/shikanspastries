@@ -143,9 +143,15 @@ export default function Footer() {
         <p className="text-[9px] text-ivory/12 font-sans">
           © {year} Shikan Pastries. All rights reserved.
         </p>
-        <p className="text-[9px] text-ivory/10 font-sans flex items-center gap-1.5">
-          Crafted with <Heart size={7} className="text-champagne/25" /> in Maai Mahiu
-        </p>
+        <div className="text-[9px] text-ivory/10 font-sans flex flex-col sm:flex-row items-center gap-1 sm:gap-2">
+          <span className="flex items-center gap-1.5">
+            Crafted with <Heart size={7} className="text-champagne/25" /> in Maai Mahiu
+          </span>
+          <span className="hidden sm:inline text-ivory/5">•</span>
+          <span>
+            By <a href="https://mwangidev.terraseptsolutions.com" target="_blank" rel="noopener noreferrer" className="hover:text-champagne/40 transition-colors duration-300">TerraSept Solutions</a>
+          </span>
+        </div>
       </div>
     </footer>
   );

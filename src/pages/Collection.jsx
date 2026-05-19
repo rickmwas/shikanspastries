@@ -6,12 +6,12 @@ import Footer from '../components/shikan/Footer';
 import FloatingWhatsApp from '../components/shikan/FloatingWhatsApp';
 
 const IMGS = {
-  birthday1: 'https://images.unsplash.com/photo-1464349095431-e9a21285b5f3?w=800&q=80',
-  birthday2: 'https://images.unsplash.com/photo-1488477181946-6428a0291777?w=800&q=80',
-  birthday3: 'https://images.unsplash.com/photo-1562440499-64c9a111f713?w=800&q=80',
-  birthday4: 'https://images.unsplash.com/photo-1558636508-e0a3e2f9b4f6?w=800&q=80',
-  wedding1:  'https://images.unsplash.com/photo-1535141192574-5d4897c12636?w=800&q=80',
-  wedding2:  'https://images.unsplash.com/photo-1621303837174-89787a7d4729?w=800&q=80',
+  birthday1: 'https://res.cloudinary.com/dcr7hgmym/image/upload/f_auto,q_auto,w_800/v1779129780/shikan1_xwaqcf.jpg',
+  birthday2: 'https://res.cloudinary.com/dcr7hgmym/image/upload/f_auto,q_auto,w_800/v1779129780/shikan3_bpbuhu.jpg',
+  birthday3: 'https://res.cloudinary.com/dcr7hgmym/image/upload/f_auto,q_auto,w_800/v1779129780/shikan_ppcbbu.jpg',
+  birthday4: 'https://res.cloudinary.com/dcr7hgmym/image/upload/f_auto,q_auto,w_800/v1779129779/shikan2_lwebyq.jpg',
+  wedding1:  'https://res.cloudinary.com/dcr7hgmym/image/upload/f_auto,q_auto,w_800/v1779129778/shikan4_bylkwj.jpg',
+  wedding2:  'https://res.cloudinary.com/dcr7hgmym/image/upload/f_auto,q_auto,w_800/v1779129780/shikan1_xwaqcf.jpg',
 };
 
 const ITEMS = [

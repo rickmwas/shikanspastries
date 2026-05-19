@@ -10,12 +10,12 @@ import TestimonialsSection from '../components/shikan/TestimonialsSection';
 
 const IMGS = {
   hero:    'https://res.cloudinary.com/dcr7hgmym/image/upload/f_auto,q_auto,w_1200/v1779194020/ChatGPT_Image_May_19_2026_03_32_57_PM_ni2ony.png',
-  wedding: 'https://images.unsplash.com/photo-1535141192574-5d4897c12636?w=900&q=80',
-  event:   'https://images.unsplash.com/photo-1621303837174-89787a7d4729?w=900&q=80',
-  cake1:   'https://images.unsplash.com/photo-1562440499-64c9a111f713?w=900&q=80',
-  cake2:   'https://images.unsplash.com/photo-1464349095431-e9a21285b5f3?w=900&q=80',
-  cake3:   'https://images.unsplash.com/photo-1542826438-bd32f43d626f?w=900&q=80',
-  cake4:   'https://images.unsplash.com/photo-1488477181946-6428a0291777?w=900&q=80',
+  wedding: 'https://res.cloudinary.com/dcr7hgmym/image/upload/f_auto,q_auto,w_800/v1779129780/shikan1_xwaqcf.jpg',
+  event:   'https://res.cloudinary.com/dcr7hgmym/image/upload/f_auto,q_auto,w_800/v1779129780/shikan3_bpbuhu.jpg',
+  cake1:   'https://res.cloudinary.com/dcr7hgmym/image/upload/f_auto,q_auto,w_800/v1779129780/shikan_ppcbbu.jpg',
+  cake2:   'https://res.cloudinary.com/dcr7hgmym/image/upload/f_auto,q_auto,w_800/v1779129779/shikan2_lwebyq.jpg',
+  cake3:   'https://res.cloudinary.com/dcr7hgmym/image/upload/f_auto,q_auto,w_800/v1779129778/shikan4_bylkwj.jpg',
+  cake4:   'https://res.cloudinary.com/dcr7hgmym/image/upload/f_auto,q_auto,w_800/v1779129780/shikan1_xwaqcf.jpg',
 };
 
 function useInView(ref, threshold = 0.12) {
