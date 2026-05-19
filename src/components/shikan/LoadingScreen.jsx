@@ -70,7 +70,7 @@ export default function LoadingScreen() {
             className="text-[10px] tracking-[0.6em] text-champagne uppercase font-sans animate-fade-up"
             style={{ animationDelay: '0.1s', opacity: 0 }}
           >
-            Nairobi, Kenya
+            Maai Mahiu, Kenya
           </p>
         </div>
 
@@ -82,7 +82,7 @@ export default function LoadingScreen() {
               textShadow: '0 4px 40px hsla(355,72%,52%,0.2)',
             }}
           >
-            Shikan
+            Shikan's
           </h1>
         </div>
 
