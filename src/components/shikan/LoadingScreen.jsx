@@ -64,7 +64,17 @@ export default function LoadingScreen() {
       </div>
 
       {/* Content */}
-      <div className="text-center relative z-10">
+      <div className="text-center relative z-10 flex flex-col items-center">
+        {/* Logo */}
+        <div className="mb-6 overflow-hidden">
+          <img
+            src="https://res.cloudinary.com/dcr7hgmym/image/upload/f_auto,q_auto,w_400/v1779129808/ChatGPT_Image_May_18__2026__08_22_38_PM-removebg-preview_ehedtx.png"
+            alt="Shikan Pastries Logo"
+            className="w-20 h-20 sm:w-24 sm:h-24 object-contain animate-fade-up"
+            style={{ animationDelay: '0.05s', opacity: 0 }}
+          />
+        </div>
+
         <div className="mb-6 overflow-hidden">
           <p
             className="text-[10px] tracking-[0.6em] text-champagne uppercase font-sans animate-fade-up"
