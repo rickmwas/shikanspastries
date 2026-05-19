@@ -33,7 +33,7 @@ export default function FloatingWhatsApp() {
 
   const sendMessage = () => {
     window.open(
-      'https://wa.me/254700000000?text=Hello%20Shikan%20Pastries!%20I%20would%20like%20to%20place%20an%20order.',
+      'https://wa.me/254113242983?text=Hello%20Shikan%20Pastries!%20I%20would%20like%20to%20place%20an%20order.',
       '_blank'
     );
     setOpen(false);

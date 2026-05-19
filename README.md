@@ -51,12 +51,7 @@ A modern React + Vite single-page application for a pastry shop landing experien
 
 This project does not require environment variables for the core UI, but you may add `.env.local` if you need custom deployment values or integrations.
 
-Example:
 
-```env
-VITE_BASE44_APP_ID=your_app_id
-VITE_BASE44_APP_BASE_URL=https://your-app-base-url
-```
 
 ## Project Structure
 
